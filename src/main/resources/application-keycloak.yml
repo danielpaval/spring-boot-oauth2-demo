@@ -1,0 +1,32 @@
+application:
+    keycloak:
+        url: ${KEYCLOAK_URL:http://localhost:8180}
+        realm: ${KEYCLOAK_REALM:dev}
+
+spring:
+    security:
+        oauth2:
+            client:
+                registration:
+                    keycloak-public:
+                        client-name: Public (Authorization Code with PKCE)
+                        client-id: public
+                        authorization-grant-type: authorization_code
+                        scope:
+                          - openid
+                        provider: keycloak
+                    keycloak-private:
+                        client-name: Private (Authorization Code with secret)
+                        client-id: private
+                        client-secret: ${KEYCLOAK_PRIVATE_CLIENT_SECRET}
+                        authorization-grant-type: authorization_code
+                        scope:
+                            - openid
+                        provider: keycloak
+                provider:
+                    keycloak:
+                        issuer-uri: ${application.keycloak.url}/realms/${application.keycloak.realm}
+                        user-name-attribute: preferred_username
+            resourceserver:
+                jwt:
+                    issuer-uri: ${spring.security.oauth2.client.provider.keycloak.issuer-uri}

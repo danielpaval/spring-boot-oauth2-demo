@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: keycloak
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  thymeleaf:
+    cache: false
+
+application:
+  url: http://localhost:8080
+
+feign:
+  httpclient:
+    enabled: true
+
+logging:
+  level:
+    org.springframework:
+      web: DEBUG
+      security: DEBUG
+    com.example.oauth2: DEBUG

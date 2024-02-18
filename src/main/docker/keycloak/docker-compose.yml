@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    restart: unless-stopped
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KEYCLOAK_LOGLEVEL=DEBUG
+    ports:
+      - '8180:8080'
+    volumes:
+      - .\dev.json:/opt/keycloak/data/import/dev.json
+    command: start-dev --db=postgres --db-url=jdbc:postgresql://postgresql:5432/keycloak_dev --db-username=postgres --db-password= --import-realm
